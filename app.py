@@ -1,3 +1,7 @@
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
+
 from flask import (
     Flask,
     render_template,
@@ -21,11 +25,15 @@ app.config['UPLOAD_FOLDER'] = './static/profile_pics'
 
 SECRET_KEY = 'SPARTA'
 
-MONGODB_CONNECTION_STRING = 'mongodb+srv://nadaanis526:nada2626anis@cluster0.zp4go5w.mongodb.net/'
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
-client = MongoClient(MONGODB_CONNECTION_STRING)
+MONGODB_URI = os.environ.get("MONGODB_URI")
+DB_NAME =  os.environ.get("DB_NAME")
 
-db = client.dbprojects
+client = MongoClient(MONGODB_URI)
+
+db = client[DB_NAME]
 
 TOKEN_KEY ='mytoken'
 
